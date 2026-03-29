@@ -246,18 +246,27 @@ a:visited { color: #800000 !important; }
 nav#TOC { background: #f9f9f9; padding: 1em; border-radius: 5px; margin-bottom: 2em; }
 </style>
   <style>
+
 .back-to-toc {
-font-size: 0.8rem;
-vertical-align: middle;
-margin-left: 10px;
+display: inline-block;
+font-size: 1.4rem; 
+margin-left: 15px;
+color: #bc002d !important; 
 text-decoration: none !important;
-color: #999 !important; 
-font-weight: normal;
+transition: transform 0.2s ease;
+vertical-align: middle;
+cursor: pointer;
 }
-.back-to-toc:hover { color: #bc002d !important; }
+.back-to-toc:hover {
+transform: translateY(-3px); 
+color: #000 !important;
+}
 
 @media (max-width: 600px) {
-.back-to-toc { margin-left: 5px; font-size: 0.9rem; }
+.back-to-toc {
+font-size: 1.2rem;
+margin-left: 10px;
+}
 }
 </style>
 
