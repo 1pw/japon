@@ -245,6 +245,36 @@ a:visited { color: #800000 !important; }
 
 nav#TOC { background: #f9f9f9; padding: 1em; border-radius: 5px; margin-bottom: 2em; }
 </style>
+  <style>
+.back-to-toc {
+font-size: 0.8rem;
+vertical-align: middle;
+margin-left: 10px;
+text-decoration: none !important;
+color: #999 !important; 
+font-weight: normal;
+}
+.back-to-toc:hover { color: #bc002d !important; }
+
+@media (max-width: 600px) {
+.back-to-toc { margin-left: 5px; font-size: 0.9rem; }
+}
+</style>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+      // On sélectionne tous les titres sauf le titre principal h1.title
+      const headers = document.querySelectorAll("h1:not(.title), h2, h3");
+      headers.forEach(header => {
+          const link = document.createElement("a");
+          link.href = "#TOC";
+          link.className = "back-to-toc";
+          link.innerHTML = "↑"; // Symbole discret de remontée
+          link.title = "Retour à la table des matières";
+          header.appendChild(link);
+      });
+  });
+  </script>
 </head>
 <body>
 <header id="title-block-header">
