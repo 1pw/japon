@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="author" content="3+2 X" />
+  <meta name="author" content="3+2 Y" />
   <title>Projet de Voyage : Japon 2026</title>
   <style>
 
@@ -238,124 +238,6 @@ font-weight: 600;
   <style>
 
 html { scroll-behavior: smooth; }
-:target { scroll-margin-top: 6rem; }
-body { position: relative; overflow-x: hidden; } 
-a { color: #bc002d !important; font-weight: bold; }
-a:visited { color: #800000 !important; }
-
-#hamburger-btn {
-position: fixed;
-top: 20px;
-right: 20px;
-z-index: 1001; 
-background: #bc002d;
-color: white;
-border: none;
-padding: 12px 20px;
-border-radius: 8px;
-cursor: pointer;
-font-size: 1.4rem; font-weight: 800;
-box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-}
-
-nav#TOC {
-position: fixed;
-top: 0;
-right: -100%; 
-width: 85%; 
-max-width: 320px;
-height: 100%;
-background: white;
-box-shadow: -5px 0 20px rgba(0,0,0,0.3);
-transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-z-index: 1000;
-padding: 80px 25px 40px 25px;
-overflow-y: auto;
-}
-nav#TOC.active { right: 0; }
-nav#TOC ul { list-style: none; padding: 0; margin: 0; }
-nav#TOC li { margin-bottom: 15px; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px; }
-nav#TOC a { text-decoration: none; font-size: 1.15rem; display: block; color: #bc002d !important;
-}
-
-.back-to-toc {
-display: inline-block;
-font-size: 1.4rem;
-margin-left: 15px;
-color: #bc002d !important;
-cursor: pointer;
-}
-
-#toc-overlay {
-position: fixed;
-top: 0; left: 0; width: 100vw; height: 100vh;
-background: rgba(0,0,0,0.5);
-display: none;
-z-index: 999;
-}
-#toc-overlay.active { display: block; }
-</style>
-
-  <button id="hamburger-btn">☰ MENU</button>
-  <div id="toc-overlay"></div>
-
-  <script>
-  document.addEventListener("DOMContentLoaded", function() {
-      const toc = document.getElementById('TOC');
-      const overlay = document.getElementById('toc-overlay');
-      const btn = document.getElementById('hamburger-btn');
-
-      function openMenu() {
-          toc.classList.add('active');
-          overlay.classList.add('active');
-      }
-
-      function closeMenu() {
-          toc.classList.remove('active');
-          overlay.classList.remove('active');
-      }
-
-      btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          toc.classList.contains('active') ? closeMenu() : openMenu();
-      });
-
-      overlay.addEventListener('click', closeMenu);
-
-      // 1. Gestion des Flèches "⭡"
-      const headers = document.querySelectorAll("h1:not(.title), h2, h3");
-      headers.forEach(header => {
-          const arrow = document.createElement("span");
-          arrow.innerHTML = " ⭡"; 
-          arrow.className = "back-to-toc";
-          arrow.onclick = (e) => { e.preventDefault(); openMenu(); };
-          header.appendChild(arrow);
-      });
-
-      // 2. Liens du Menu (Navigation interne)
-      const tocLinks = toc.querySelectorAll('a');
-      tocLinks.forEach(link => {
-          link.addEventListener('click', () => {
-              setTimeout(closeMenu, 200); // Délai pour laisser le scroll s'initier
-          });
-      });
-
-      // 3. Forcer les liens externes dans de nouveaux onglets
-      const allLinks = document.querySelectorAll('a');
-      allLinks.forEach(link => {
-          if (link.hostname !== window.location.hostname && link.hostname !== "") {
-              link.setAttribute('target', '_blank');
-              link.setAttribute('rel', 'noopener noreferrer');
-          }
-      });
-  });
-  </script>
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <style>
-
-html { scroll-behavior: smooth; }
 :target { scroll-margin-top: 6rem; } 
 a { color: #bc002d !important; font-weight: bold; }
 a:visited { color: #800000 !important; }
@@ -470,7 +352,7 @@ z-index: 998;
 <body>
 <header id="title-block-header">
 <h1 class="title">Projet de Voyage : Japon 2026</h1>
-<p class="author">3+2 X</p>
+<p class="author">3+2 Y</p>
 <p class="date">Août – Septembre 2026</p>
 </header>
 <nav id="TOC" role="doc-toc">
