@@ -246,29 +246,45 @@ a:visited { color: #800000 !important; }
 nav#TOC { background: #f9f9f9; padding: 1em; border-radius: 5px; margin-bottom: 2em; }
 </style>
   <style>
-
 .back-to-toc {
 display: inline-block;
-font-size: 1.4rem; 
+font-size: 1.4rem;
 margin-left: 15px;
 color: #bc002d !important; 
-text-decoration: none !important;
 transition: transform 0.2s ease;
-vertical-align: middle;
-cursor: pointer;
+user-select: none; 
 }
 .back-to-toc:hover {
-transform: translateY(-3px); 
+transform: scale(1.2);
 color: #000 !important;
 }
-
-@media (max-width: 600px) {
-.back-to-toc {
-font-size: 1.2rem;
-margin-left: 10px;
-}
-}
 </style>
+  <!-- <style> -->
+  <!--     /* La flèche à côté des titres */ -->
+  <!--     .back-to-toc { -->
+  <!--         display: inline-block; -->
+  <!--         font-size: 1.4rem; /* Taille augmentée */ -->
+  <!--         margin-left: 15px; -->
+  <!--         color: #bc002d !important; /* Rouge intense identique à vos liens */ -->
+  <!--         text-decoration: none !important; -->
+  <!--         transition: transform 0.2s ease; -->
+  <!--         vertical-align: middle; -->
+  <!--         cursor: pointer; -->
+  <!--     } -->
+
+  <!--     .back-to-toc:hover { -->
+  <!--         transform: translateY(-3px); /* Petit saut au survol */ -->
+  <!--         color: #000 !important; -->
+  <!--     } -->
+
+  <!--     /* Ajustement pour mobile pour ne pas briser la ligne du titre */ -->
+  <!--     @media (max-width: 600px) { -->
+  <!--         .back-to-toc { -->
+  <!--             font-size: 1.2rem; -->
+  <!--             margin-left: 10px; -->
+  <!--         } -->
+  <!--     } -->
+  <!-- </style> -->
   <style>
 
 html { scroll-behavior: smooth; }
@@ -345,21 +361,57 @@ z-index: 998;
       });
   });
   </script>
-
   <script>
   document.addEventListener("DOMContentLoaded", function() {
-      // On sélectionne tous les titres sauf le titre principal h1.title
+      const toc = document.getElementById('TOC');
+      const overlay = document.getElementById('toc-overlay');
+
+      // Fonction pour basculer le menu
+      function toggleMenu(e) {
+          if (e) e.preventDefault();
+          toc.classList.toggle('active');
+          overlay.classList.toggle('active');
+      }
+
+      // 1. Gestion du bouton principal Hamburger
+      document.getElementById('hamburger-btn').addEventListener('click', toggleMenu);
+      overlay.addEventListener('click', toggleMenu);
+
+      // 2. Transformation des flèches de section en déclencheurs
       const headers = document.querySelectorAll("h1:not(.title), h2, h3");
       headers.forEach(header => {
-          const link = document.createElement("a");
-          link.href = "#TOC";
-          link.className = "back-to-toc";
-          link.innerHTML = "↑"; // Symbole discret de remontée
-          link.title = "Retour à la table des matières";
-          header.appendChild(link);
+          const arrow = document.createElement("span"); // On utilise span pour plus de contrôle
+          arrow.innerHTML = " ⭡"; 
+          arrow.className = "back-to-toc";
+          arrow.style.cursor = "pointer";
+          arrow.title = "Ouvrir le sommaire";
+          
+          // Au clic, on ouvre le menu
+          arrow.addEventListener('click', toggleMenu);
+          header.appendChild(arrow);
+      });
+
+      // 3. Fermeture automatique après clic sur un lien du menu
+      const tocLinks = toc.querySelectorAll('a');
+      tocLinks.forEach(link => {
+          link.addEventListener('click', toggleMenu);
       });
   });
   </script>
+  <!-- <script> -->
+  <!-- document.addEventListener("DOMContentLoaded", function() { -->
+  <!--     // On sélectionne tous les titres sauf le titre principal h1.title -->
+  <!--     const headers = document.querySelectorAll("h1:not(.title), h2, h3"); -->
+  <!--     headers.forEach(header => { -->
+  <!--         const link = document.createElement("a"); -->
+  <!--         link.href = "#TOC"; -->
+  <!--         link.className = "back-to-toc"; -->
+  <!--         link.innerHTML = "↑"; // Symbole discret de remontée -->
+  <!--         link.title = "Retour à la table des matières"; -->
+  <!--         header.appendChild(link); -->
+  <!--     }); -->
+  <!-- }); -->
+  <!-- </script> -->
 </head>
 <body>
 <header id="title-block-header">
