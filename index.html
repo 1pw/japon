@@ -340,14 +340,23 @@ z-index: 999;
           });
       });
 
-      // 3. Forcer les liens externes dans de nouveaux onglets
+  // 3. Gestion des liens externes compatible iOS
       const allLinks = document.querySelectorAll('a');
       allLinks.forEach(link => {
-          if (link.hostname !== window.location.hostname && link.hostname !== "") {
+          // On vérifie si le lien est externe
+          if (link.hostname && link.hostname !== window.location.hostname) {
+              
+              // Méthode 1 : Attributs standards (priorité au rendu navigateur)
               link.setAttribute('target', '_blank');
               link.setAttribute('rel', 'noopener noreferrer');
+
+              // Méthode 2 : Correction forcée pour iOS Safari
+              link.addEventListener('click', function(e) {
+                  // On laisse le comportement par défaut (target _blank) 
+                  // mais on s'assure qu'aucun autre script ne bloque l'événement.
+                  e.stopPropagation();
+              }, false);
           }
-      });
   });
   </script>
 </head>
