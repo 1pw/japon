@@ -238,7 +238,8 @@ font-weight: 600;
   <style>
 
 html { scroll-behavior: smooth; }
-:target { scroll-margin-top: 6rem; } 
+:target { scroll-margin-top: 6rem; }
+body { position: relative; overflow-x: hidden; } 
 a { color: #bc002d !important; font-weight: bold; }
 a:visited { color: #800000 !important; }
 
@@ -246,36 +247,35 @@ a:visited { color: #800000 !important; }
 position: fixed;
 top: 20px;
 right: 20px;
-z-index: 1000;
+z-index: 1001; 
 background: #bc002d;
 color: white;
 border: none;
-padding: 15px 25px;
+padding: 12px 20px;
 border-radius: 8px;
 cursor: pointer;
-font-size: 1.6rem; font-weight: 800;
-text-transform: uppercase;
+font-size: 1.4rem; font-weight: 800;
 box-shadow: 0 4px 15px rgba(0,0,0,0.4);
 }
 
 nav#TOC {
 position: fixed;
 top: 0;
-right: -320px;
-width: 300px;
+right: -100%; 
+width: 85%; 
+max-width: 320px;
 height: 100%;
 background: white;
-box-shadow: -4px 0 15px rgba(0,0,0,0.2);
-transition: right 0.3s ease;
-z-index: 999;
+box-shadow: -5px 0 20px rgba(0,0,0,0.3);
+transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+z-index: 1000;
 padding: 80px 25px 40px 25px;
 overflow-y: auto;
 }
 nav#TOC.active { right: 0; }
 nav#TOC ul { list-style: none; padding: 0; margin: 0; }
 nav#TOC li { margin-bottom: 15px; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px; }
-nav#TOC a { text-decoration: none; font-size: 1.15rem; display: block; line-height: 1.4;
-color: #bc002d !important;
+nav#TOC a { text-decoration: none; font-size: 1.15rem; display: block; color: #bc002d !important;
 }
 
 .back-to-toc {
@@ -284,15 +284,14 @@ font-size: 1.4rem;
 margin-left: 15px;
 color: #bc002d !important;
 cursor: pointer;
-user-select: none;
 }
 
 #toc-overlay {
 position: fixed;
-top: 0; left: 0; width: 100%; height: 100%;
-background: rgba(0,0,0,0.4);
+top: 0; left: 0; width: 100vw; height: 100vh;
+background: rgba(0,0,0,0.5);
 display: none;
-z-index: 998;
+z-index: 999;
 }
 #toc-overlay.active { display: block; }
 </style>
@@ -306,45 +305,48 @@ z-index: 998;
       const overlay = document.getElementById('toc-overlay');
       const btn = document.getElementById('hamburger-btn');
 
-      // Fonction pour ouvrir le menu
       function openMenu() {
           toc.classList.add('active');
           overlay.classList.add('active');
       }
 
-      // Fonction pour fermer le menu
       function closeMenu() {
           toc.classList.remove('active');
           overlay.classList.remove('active');
       }
 
-      btn.addEventListener('click', function(e) {
+      btn.addEventListener('click', (e) => {
           e.preventDefault();
           toc.classList.contains('active') ? closeMenu() : openMenu();
       });
 
       overlay.addEventListener('click', closeMenu);
 
-      // Flèches de section : ouvrent le menu
+      // 1. Gestion des Flèches "⭡"
       const headers = document.querySelectorAll("h1:not(.title), h2, h3");
       headers.forEach(header => {
           const arrow = document.createElement("span");
           arrow.innerHTML = " ⭡"; 
           arrow.className = "back-to-toc";
-          arrow.onclick = function(e) {
-              e.preventDefault();
-              openMenu();
-          };
+          arrow.onclick = (e) => { e.preventDefault(); openMenu(); };
           header.appendChild(arrow);
       });
 
-      // Liens du menu : on ferme APRES le clic pour laisser le temps au scroll
+      // 2. Liens du Menu (Navigation interne)
       const tocLinks = toc.querySelectorAll('a');
       tocLinks.forEach(link => {
-          link.addEventListener('click', function() {
-              // On attend 100ms que l'ancre soit activée avant de fermer le menu
-              setTimeout(closeMenu, 150);
+          link.addEventListener('click', () => {
+              setTimeout(closeMenu, 200); // Délai pour laisser le scroll s'initier
           });
+      });
+
+      // 3. Forcer les liens externes dans de nouveaux onglets
+      const allLinks = document.querySelectorAll('a');
+      allLinks.forEach(link => {
+          if (link.hostname !== window.location.hostname && link.hostname !== "") {
+              link.setAttribute('target', '_blank');
+              link.setAttribute('rel', 'noopener noreferrer');
+          }
       });
   });
   </script>
