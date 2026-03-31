@@ -238,8 +238,7 @@ font-weight: 600;
   <style>
 
 html { scroll-behavior: smooth; }
-:target { scroll-margin-top: 5rem; }
-
+:target { scroll-margin-top: 6rem; } 
 a { color: #bc002d !important; font-weight: bold; }
 a:visited { color: #800000 !important; }
 
@@ -257,28 +256,26 @@ cursor: pointer;
 font-size: 1.6rem; font-weight: 800;
 text-transform: uppercase;
 box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-transition: transform 0.1s;
 }
-#hamburger-btn:active { transform: scale(0.95); }
 
 nav#TOC {
 position: fixed;
 top: 0;
-right: -320px; 
+right: -320px;
 width: 300px;
 height: 100%;
 background: white;
 box-shadow: -4px 0 15px rgba(0,0,0,0.2);
-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+transition: right 0.3s ease;
 z-index: 999;
 padding: 80px 25px 40px 25px;
 overflow-y: auto;
 }
 nav#TOC.active { right: 0; }
-
 nav#TOC ul { list-style: none; padding: 0; margin: 0; }
 nav#TOC li { margin-bottom: 15px; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px; }
 nav#TOC a { text-decoration: none; font-size: 1.15rem; display: block; line-height: 1.4;
+color: #bc002d !important;
 }
 
 .back-to-toc {
@@ -288,9 +285,7 @@ margin-left: 15px;
 color: #bc002d !important;
 cursor: pointer;
 user-select: none;
-transition: transform 0.2s;
 }
-.back-to-toc:hover { transform: scale(1.2); }
 
 #toc-overlay {
 position: fixed;
@@ -311,32 +306,45 @@ z-index: 998;
       const overlay = document.getElementById('toc-overlay');
       const btn = document.getElementById('hamburger-btn');
 
-      // Fonction unique pour ouvrir/fermer
-      function toggleMenu(e) {
-          if (e) e.preventDefault();
-          toc.classList.toggle('active');
-          overlay.classList.toggle('active');
+      // Fonction pour ouvrir le menu
+      function openMenu() {
+          toc.classList.add('active');
+          overlay.classList.add('active');
       }
 
-      // Événements sur le bouton et l'overlay
-      btn.addEventListener('click', toggleMenu);
-      overlay.addEventListener('click', toggleMenu);
+      // Fonction pour fermer le menu
+      function closeMenu() {
+          toc.classList.remove('active');
+          overlay.classList.remove('active');
+      }
 
-      // Transformation des titres en boutons d'ouverture [cite: 3, 6, 25]
+      btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          toc.classList.contains('active') ? closeMenu() : openMenu();
+      });
+
+      overlay.addEventListener('click', closeMenu);
+
+      // Flèches de section : ouvrent le menu
       const headers = document.querySelectorAll("h1:not(.title), h2, h3");
       headers.forEach(header => {
           const arrow = document.createElement("span");
           arrow.innerHTML = " ⭡"; 
           arrow.className = "back-to-toc";
-          arrow.title = "Ouvrir le sommaire";
-          arrow.onclick = toggleMenu; // Déclenche le menu
+          arrow.onclick = function(e) {
+              e.preventDefault();
+              openMenu();
+          };
           header.appendChild(arrow);
       });
 
-      // Fermeture automatique du menu après clic sur un lien [cite: 2]
+      // Liens du menu : on ferme APRES le clic pour laisser le temps au scroll
       const tocLinks = toc.querySelectorAll('a');
       tocLinks.forEach(link => {
-          link.addEventListener('click', toggleMenu);
+          link.addEventListener('click', function() {
+              // On attend 100ms que l'ancre soit activée avant de fermer le menu
+              setTimeout(closeMenu, 150);
+          });
       });
   });
   </script>
