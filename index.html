@@ -233,57 +233,42 @@ margin-bottom: 0.5rem;
 font-weight: 600;
 }
 </style>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
 
 html { scroll-behavior: smooth; }
+:target { scroll-margin-top: 2rem; }
 
-a { color: #bc002d !important; font-weight: bold; text-decoration: underline; }
-a:visited { color: #800000 !important; }
+a { color: #bc002d !important; font-weight: bold; }
 
-:target { scroll-margin-top: 3rem; }
+@media (min-width: 1000px) {
+body {
+max-width: 1200px;
+margin-left: 300px; 
+padding-left: 50px;
+}
+nav#TOC {
+position: fixed;
+left: 20px;
+top: 20px;
+width: 250px;
+height: 90vh;
+overflow-y: auto; 
+background: #f9f9f9;
+padding: 15px;
+border-right: 1px solid #eee;
+font-size: 0.9rem;
+}
+}
 
-nav#TOC { background: #f9f9f9; padding: 1em; border-radius: 5px; margin-bottom: 2em; }
+@media (max-width: 999px) {
+nav#TOC {
+background: #f4f4f4;
+padding: 1rem;
+margin-bottom: 2rem;
+border-radius: 8px;
+}
+}
 </style>
-  <style>
-
-.back-to-toc {
-display: inline-block;
-font-size: 1.4rem; 
-margin-left: 15px;
-color: #bc002d !important; 
-text-decoration: none !important;
-transition: transform 0.2s ease;
-vertical-align: middle;
-cursor: pointer;
-}
-.back-to-toc:hover {
-transform: translateY(-3px); 
-color: #000 !important;
-}
-
-@media (max-width: 600px) {
-.back-to-toc {
-font-size: 1.2rem;
-margin-left: 10px;
-}
-}
-</style>
-
-  <script>
-  document.addEventListener("DOMContentLoaded", function() {
-      // On sélectionne tous les titres sauf le titre principal h1.title
-      const headers = document.querySelectorAll("h1:not(.title), h2, h3");
-      headers.forEach(header => {
-          const link = document.createElement("a");
-          link.href = "#TOC";
-          link.className = "back-to-toc";
-          link.innerHTML = "↑"; // Symbole discret de remontée
-          link.title = "Retour à la table des matières";
-          header.appendChild(link);
-      });
-  });
-  </script>
 </head>
 <body>
 <header id="title-block-header">
