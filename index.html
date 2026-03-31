@@ -234,184 +234,112 @@ font-weight: 600;
 }
 </style>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
 
-html { scroll-behavior: smooth; }
-
-a { color: #bc002d !important; font-weight: bold; text-decoration: underline; }
-a:visited { color: #800000 !important; }
-
-:target { scroll-margin-top: 3rem; }
-
-nav#TOC { background: #f9f9f9; padding: 1em; border-radius: 5px; margin-bottom: 2em; }
-</style>
-  <style>
-.back-to-toc {
-display: inline-block;
-font-size: 1.4rem;
-margin-left: 15px;
-color: #bc002d !important; 
-transition: transform 0.2s ease;
-user-select: none; 
-}
-.back-to-toc:hover {
-transform: scale(1.2);
-color: #000 !important;
-}
-</style>
-  <!-- <style> -->
-  <!--     /* La flèche à côté des titres */ -->
-  <!--     .back-to-toc { -->
-  <!--         display: inline-block; -->
-  <!--         font-size: 1.4rem; /* Taille augmentée */ -->
-  <!--         margin-left: 15px; -->
-  <!--         color: #bc002d !important; /* Rouge intense identique à vos liens */ -->
-  <!--         text-decoration: none !important; -->
-  <!--         transition: transform 0.2s ease; -->
-  <!--         vertical-align: middle; -->
-  <!--         cursor: pointer; -->
-  <!--     } -->
-
-  <!--     .back-to-toc:hover { -->
-  <!--         transform: translateY(-3px); /* Petit saut au survol */ -->
-  <!--         color: #000 !important; -->
-  <!--     } -->
-
-  <!--     /* Ajustement pour mobile pour ne pas briser la ligne du titre */ -->
-  <!--     @media (max-width: 600px) { -->
-  <!--         .back-to-toc { -->
-  <!--             font-size: 1.2rem; -->
-  <!--             margin-left: 10px; -->
-  <!--         } -->
-  <!--     } -->
-  <!-- </style> -->
   <style>
 
 html { scroll-behavior: smooth; }
 :target { scroll-margin-top: 5rem; }
+
 a { color: #bc002d !important; font-weight: bold; }
+a:visited { color: #800000 !important; }
 
 #hamburger-btn {
 position: fixed;
-top: 15px;
-right: 15px;
+top: 20px;
+right: 20px;
 z-index: 1000;
 background: #bc002d;
 color: white;
 border: none;
-padding: 10px 15px;
-border-radius: 2px;
+padding: 15px 25px;
+border-radius: 8px;
 cursor: pointer;
-font-size: 1.8rem;
-letter-spacing: 1px;
-box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+font-size: 1.6rem; font-weight: 800;
+text-transform: uppercase;
+box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+transition: transform 0.1s;
 }
+#hamburger-btn:active { transform: scale(0.95); }
+
 nav#TOC {
 position: fixed;
 top: 0;
-right: -300px; 
-width: 280px;
+right: -320px; 
+width: 300px;
 height: 100%;
 background: white;
-box-shadow: -2px 0 5px rgba(0,0,0,0.1);
-transition: 0.3s;
+box-shadow: -4px 0 15px rgba(0,0,0,0.2);
+transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 z-index: 999;
-padding: 60px 20px 20px 20px;
+padding: 80px 25px 40px 25px;
 overflow-y: auto;
 }
-nav#TOC.active {
-right: 0; 
+nav#TOC.active { right: 0; }
+
+nav#TOC ul { list-style: none; padding: 0; margin: 0; }
+nav#TOC li { margin-bottom: 15px; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px; }
+nav#TOC a { text-decoration: none; font-size: 1.15rem; display: block; line-height: 1.4;
 }
 
-nav#TOC ul { list-style: none; padding: 0; }
-nav#TOC li { margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-nav#TOC a { text-decoration: none; font-size: 0.9rem; }
+.back-to-toc {
+display: inline-block;
+font-size: 1.4rem;
+margin-left: 15px;
+color: #bc002d !important;
+cursor: pointer;
+user-select: none;
+transition: transform 0.2s;
+}
+.back-to-toc:hover { transform: scale(1.2); }
 
 #toc-overlay {
 position: fixed;
 top: 0; left: 0; width: 100%; height: 100%;
-background: rgba(0,0,0,0.3);
+background: rgba(0,0,0,0.4);
 display: none;
 z-index: 998;
 }
 #toc-overlay.active { display: block; }
 </style>
 
-  <button id="hamburger-btn">☰ Menu</button>
+  <button id="hamburger-btn">☰ MENU</button>
   <div id="toc-overlay"></div>
 
   <script>
   document.addEventListener("DOMContentLoaded", function() {
+      const toc = document.getElementById('TOC');
+      const overlay = document.getElementById('toc-overlay');
       const btn = document.getElementById('hamburger-btn');
-      const toc = document.getElementById('TOC');
-      const overlay = document.getElementById('toc-overlay');
 
-      function toggleMenu() {
-          toc.classList.toggle('active');
-          overlay.classList.toggle('active');
-      }
-
-      btn.addEventListener('click', toggleMenu);
-      overlay.addEventListener('click', toggleMenu);
-
-      // Fermer le menu après avoir cliqué sur un lien (pour mobile)
-      const tocLinks = toc.querySelectorAll('a');
-      tocLinks.forEach(link => {
-          link.addEventListener('click', toggleMenu);
-      });
-  });
-  </script>
-  <script>
-  document.addEventListener("DOMContentLoaded", function() {
-      const toc = document.getElementById('TOC');
-      const overlay = document.getElementById('toc-overlay');
-
-      // Fonction pour basculer le menu
+      // Fonction unique pour ouvrir/fermer
       function toggleMenu(e) {
           if (e) e.preventDefault();
           toc.classList.toggle('active');
           overlay.classList.toggle('active');
       }
 
-      // 1. Gestion du bouton principal Hamburger
-      document.getElementById('hamburger-btn').addEventListener('click', toggleMenu);
+      // Événements sur le bouton et l'overlay
+      btn.addEventListener('click', toggleMenu);
       overlay.addEventListener('click', toggleMenu);
 
-      // 2. Transformation des flèches de section en déclencheurs
+      // Transformation des titres en boutons d'ouverture [cite: 3, 6, 25]
       const headers = document.querySelectorAll("h1:not(.title), h2, h3");
       headers.forEach(header => {
-          const arrow = document.createElement("span"); // On utilise span pour plus de contrôle
+          const arrow = document.createElement("span");
           arrow.innerHTML = " ⭡"; 
           arrow.className = "back-to-toc";
-          arrow.style.cursor = "pointer";
           arrow.title = "Ouvrir le sommaire";
-          
-          // Au clic, on ouvre le menu
-          arrow.addEventListener('click', toggleMenu);
+          arrow.onclick = toggleMenu; // Déclenche le menu
           header.appendChild(arrow);
       });
 
-      // 3. Fermeture automatique après clic sur un lien du menu
+      // Fermeture automatique du menu après clic sur un lien [cite: 2]
       const tocLinks = toc.querySelectorAll('a');
       tocLinks.forEach(link => {
           link.addEventListener('click', toggleMenu);
       });
   });
   </script>
-  <!-- <script> -->
-  <!-- document.addEventListener("DOMContentLoaded", function() { -->
-  <!--     // On sélectionne tous les titres sauf le titre principal h1.title -->
-  <!--     const headers = document.querySelectorAll("h1:not(.title), h2, h3"); -->
-  <!--     headers.forEach(header => { -->
-  <!--         const link = document.createElement("a"); -->
-  <!--         link.href = "#TOC"; -->
-  <!--         link.className = "back-to-toc"; -->
-  <!--         link.innerHTML = "↑"; // Symbole discret de remontée -->
-  <!--         link.title = "Retour à la table des matières"; -->
-  <!--         header.appendChild(link); -->
-  <!--     }); -->
-  <!-- }); -->
-  <!-- </script> -->
 </head>
 <body>
 <header id="title-block-header">
