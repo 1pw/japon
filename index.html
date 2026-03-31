@@ -233,42 +233,132 @@ margin-bottom: 0.5rem;
 font-weight: 600;
 }
 </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
 
 html { scroll-behavior: smooth; }
-:target { scroll-margin-top: 2rem; }
 
-a { color: #bc002d !important; font-weight: bold; }
+a { color: #bc002d !important; font-weight: bold; text-decoration: underline; }
+a:visited { color: #800000 !important; }
 
-@media (min-width: 1000px) {
-body {
-max-width: 1200px;
-margin-left: 300px; 
-padding-left: 50px;
+:target { scroll-margin-top: 3rem; }
+
+nav#TOC { background: #f9f9f9; padding: 1em; border-radius: 5px; margin-bottom: 2em; }
+</style>
+  <style>
+
+.back-to-toc {
+display: inline-block;
+font-size: 1.4rem; 
+margin-left: 15px;
+color: #bc002d !important; 
+text-decoration: none !important;
+transition: transform 0.2s ease;
+vertical-align: middle;
+cursor: pointer;
 }
-nav#TOC {
-position: fixed;
-left: 20px;
-top: 20px;
-width: 250px;
-height: 90vh;
-overflow-y: auto; 
-background: #f9f9f9;
-padding: 15px;
-border-right: 1px solid #eee;
-font-size: 0.9rem;
-}
+.back-to-toc:hover {
+transform: translateY(-3px); 
+color: #000 !important;
 }
 
-@media (max-width: 999px) {
-nav#TOC {
-background: #f4f4f4;
-padding: 1rem;
-margin-bottom: 2rem;
-border-radius: 8px;
+@media (max-width: 600px) {
+.back-to-toc {
+font-size: 1.2rem;
+margin-left: 10px;
 }
 }
 </style>
+  <style>
+
+html { scroll-behavior: smooth; }
+:target { scroll-margin-top: 5rem; }
+a { color: #bc002d !important; font-weight: bold; }
+
+#hamburger-btn {
+position: fixed;
+top: 15px;
+right: 15px;
+z-index: 1000;
+background: #bc002d;
+color: white;
+border: none;
+padding: 10px 15px;
+border-radius: 5px;
+cursor: pointer;
+font-size: 1.2rem;
+box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+nav#TOC {
+position: fixed;
+top: 0;
+right: -300px; 
+width: 280px;
+height: 100%;
+background: white;
+box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+transition: 0.3s;
+z-index: 999;
+padding: 60px 20px 20px 20px;
+overflow-y: auto;
+}
+nav#TOC.active {
+right: 0; 
+}
+
+nav#TOC ul { list-style: none; padding: 0; }
+nav#TOC li { margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+nav#TOC a { text-decoration: none; font-size: 0.9rem; }
+
+#toc-overlay {
+position: fixed;
+top: 0; left: 0; width: 100%; height: 100%;
+background: rgba(0,0,0,0.3);
+display: none;
+z-index: 998;
+}
+#toc-overlay.active { display: block; }
+</style>
+
+  <button id="hamburger-btn">☰ Menu</button>
+  <div id="toc-overlay"></div>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+      const btn = document.getElementById('hamburger-btn');
+      const toc = document.getElementById('TOC');
+      const overlay = document.getElementById('toc-overlay');
+
+      function toggleMenu() {
+          toc.classList.toggle('active');
+          overlay.classList.toggle('active');
+      }
+
+      btn.addEventListener('click', toggleMenu);
+      overlay.addEventListener('click', toggleMenu);
+
+      // Fermer le menu après avoir cliqué sur un lien (pour mobile)
+      const tocLinks = toc.querySelectorAll('a');
+      tocLinks.forEach(link => {
+          link.addEventListener('click', toggleMenu);
+      });
+  });
+  </script>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+      // On sélectionne tous les titres sauf le titre principal h1.title
+      const headers = document.querySelectorAll("h1:not(.title), h2, h3");
+      headers.forEach(header => {
+          const link = document.createElement("a");
+          link.href = "#TOC";
+          link.className = "back-to-toc";
+          link.innerHTML = "↑"; // Symbole discret de remontée
+          link.title = "Retour à la table des matières";
+          header.appendChild(link);
+      });
+  });
+  </script>
 </head>
 <body>
 <header id="title-block-header">
