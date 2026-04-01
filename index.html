@@ -258,20 +258,35 @@ font-size: 1.4rem; font-weight: 800;
 box-shadow: 0 4px 15px rgba(0,0,0,0.4);
 }
 
+
 nav#TOC {
 position: fixed;
 top: 0;
-right: -100%; 
-width: 85%; 
-max-width: 320px;
-height: 100%;
+right: -100%; width: 85%; max-width: 320px;
+height: 100vh; 
 background: white;
 box-shadow: -5px 0 20px rgba(0,0,0,0.3);
 transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 z-index: 1000;
-padding: 80px 25px 40px 25px;
+
+padding: 80px 25px 120px 25px; 
 overflow-y: auto;
+-webkit-overflow-scrolling: touch;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 nav#TOC.active { right: 0; }
 nav#TOC ul { list-style: none; padding: 0; margin: 0; }
 nav#TOC li { margin-bottom: 15px; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px; }
