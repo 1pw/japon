@@ -261,25 +261,38 @@ box-shadow: 0 4px 15px rgba(0,0,0,0.4);
 nav#TOC {
 position: fixed;
 top: 0;
-right: -100%; 
-width: 85%; 
+right: -100%;
+width: 85%;
 max-width: 320px;
-height: 100%;
+height: 100vh; 
 background: white;
 box-shadow: -5px 0 20px rgba(0,0,0,0.3);
 transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 z-index: 1000;
-padding: 80px 25px 40px 25px;
-overflow-y: auto;
+
+padding: 80px 20px 100px 20px; 
+overflow-y: scroll; 
+-webkit-overflow-scrolling: touch; 
 }
 nav#TOC.active { right: 0; }
+
 nav#TOC ul { list-style: none; padding: 0; margin: 0; }
-nav#TOC li {
-margin-bottom: 8px;
-padding-bottom: 4px;
-border-bottom: 1px solid #f0f0f0;
+nav#TOC li { margin-bottom: 5px; 
+padding-bottom: 3px;
+border-bottom: 1px solid #f0f0f0; }
+nav#TOC a { text-decoration: none; font-size: 1.2rem; 
+display: block; line-height: 1.1; 
+color: #bc002d !important;
 }
-nav#TOC a { text-decoration: none; font-size: 1.4rem; display: block; color: #bc002d !important;
+
+nav#TOC ul ul li {
+margin-bottom: 2px;
+border-bottom: none;
+padding-left: 10px;
+}
+nav#TOC ul ul a {
+font-size: 1.2rem;
+color: #bc002d !important;
 }
 
 .back-to-toc {
