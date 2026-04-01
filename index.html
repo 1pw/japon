@@ -322,15 +322,26 @@ z-index: 999;
       const overlay = document.getElementById('toc-overlay');
       const btn = document.getElementById('hamburger-btn');
 
-      function openMenu() {
+   function openMenu() {
           toc.classList.add('active');
           overlay.classList.add('active');
+          document.body.style.overflow = 'hidden'; // Bloque le scroll de la page
       }
 
       function closeMenu() {
           toc.classList.remove('active');
           overlay.classList.remove('active');
+          document.body.style.overflow = ''; // Libère le scroll de la page
       }
+      // function openMenu() {
+      //     toc.classList.add('active');
+      //     overlay.classList.add('active');
+      // }
+
+      // function closeMenu() {
+      //     toc.classList.remove('active');
+      //     overlay.classList.remove('active');
+      // }
 
       btn.addEventListener('click', (e) => {
           e.preventDefault();
@@ -400,8 +411,8 @@ Urbain</a></li>
 26/08 - 30/08 </a></li>
 <li><a href="#kyoto-nara" id="toc-kyoto-nara">31/08 - 04/09 Kyoto &amp;
 Nara</a></li>
-<li><a href="#sec:Iya" id="toc-sec:Iya">05/09 - 08/09 Vallée d’Iya et/ou
-Naoshima</a></li>
+<li><a href="#subsec:Iya" id="toc-subsec:Iya">05/09 - 08/09 Vallée d’Iya
+et/ou Naoshima</a></li>
 <li><a href="#osaka" id="toc-osaka">09/09 - 10/09 Osaka</a></li>
 </ul></li>
 <li><a href="#onsens-et-bains-publics" id="toc-onsens-et-bains-publics">Onsens et bains publics</a></li>
@@ -487,7 +498,7 @@ la version sans le Fuji)</p></li>
 <li><p><strong>Kyoto <span class="math inline">→</span> Okayama
 :</strong> 1h00 en Shinkansen.</p></li>
 <li><p><strong>Okayama <span class="math inline">→</span> Vallée d’Iya
-:</strong> 2h15 en voiture via le pont Seto-Ohashi <a href="#subsec:iya">(Iya/Naoshima)</a>.</p></li>
+:</strong> 2h15 en voiture via le pont Seto-Ohashi <a href="#subsec:Iya">(Iya/Naoshima)</a>.</p></li>
 <li><p><strong>Vallée d’Iya <span class="math inline">→</span> Bizen
 (Imbe) :</strong> 2h30 en voiture <a href="#subsec:bizen">(Poterie)</a>.</p></li>
 <li><p><strong>Okayama/Bizen <span class="math inline">→</span> Port
@@ -537,7 +548,7 @@ offer overnight staying rooms. It is a magical place fascinating in its
 d’atmosphere.</p></li>
 <li><p>Temples excentrés (Otagi Nenbutsu-ji)</p></li>
 </ul>
-<h2 class="unnumbered" id="sec:Iya">05/09 - 08/09 Vallée d’Iya et/ou
+<h2 class="unnumbered" id="subsec:Iya">05/09 - 08/09 Vallée d’Iya et/ou
 Naoshima</h2>
 <ul>
 <li><p><strong>Iya</strong>: Ponts de liane, gorges profondes (Shikoku
