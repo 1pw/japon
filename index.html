@@ -356,66 +356,75 @@ z-index: 999;
   <div id="toc-overlay"></div>
 
   <script>
-  document.addEventListener("DOMContentLoaded", function() {
-      const toc = document.getElementById('TOC');
-      const overlay = document.getElementById('toc-overlay');
-      const btn = document.getElementById('hamburger-btn');
-
-   function openMenu() {
-          toc.classList.add('active');
-          overlay.classList.add('active');
-          document.body.style.overflow = 'hidden'; // Bloque le scroll de la page
+    document.addEventListener("DOMContentLoaded", function() {
+        const toc = document.getElementById('TOC');
+        const overlay = document.getElementById('toc-overlay');
+        const btn = document.getElementById('hamburger-btn');
+        // Force un espace de sécurité à la fin du menu pour iOS
+      const tocList = toc.querySelector('ul');
+      if (tocList) {
+          const spacer = document.createElement("li");
+          spacer.style.height = "150px"; // Espace garanti sous "Ryokans"
+          spacer.style.listStyle = "none";
+          spacer.style.border = "none";
+          spacer.innerHTML = "&nbsp;";
+          tocList.appendChild(spacer);
       }
+        function openMenu() {
+            toc.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Bloque le scroll de la page
+        }
 
-      function closeMenu() {
-          toc.classList.remove('active');
-          overlay.classList.remove('active');
-          document.body.style.overflow = ''; // Libère le scroll de la page
-      }
-      // function openMenu() {
-      //     toc.classList.add('active');
-      //     overlay.classList.add('active');
-      // }
+        function closeMenu() {
+            toc.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = ''; // Libère le scroll de la page
+        }
+        // function openMenu() {
+        //     toc.classList.add('active');
+        //     overlay.classList.add('active');
+        // }
+        
+        // function closeMenu() {
+        //     toc.classList.remove('active');
+        //     overlay.classList.remove('active');
+        // }
+        
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            toc.classList.contains('active') ? closeMenu() : openMenu();
+        });
 
-      // function closeMenu() {
-      //     toc.classList.remove('active');
-      //     overlay.classList.remove('active');
-      // }
-
-      btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          toc.classList.contains('active') ? closeMenu() : openMenu();
-      });
-
-      overlay.addEventListener('click', closeMenu);
-
-      // 1. Gestion des Flèches "⭡"
-      const headers = document.querySelectorAll("h1:not(.title), h2, h3");
-      headers.forEach(header => {
-          const arrow = document.createElement("span");
-          arrow.innerHTML = " ⭡"; 
-          arrow.className = "back-to-toc";
-          arrow.onclick = (e) => { e.preventDefault(); openMenu(); };
-          header.appendChild(arrow);
-      });
-
-      // 2. Liens du Menu (Navigation interne)
-      const tocLinks = toc.querySelectorAll('a');
-      tocLinks.forEach(link => {
-          link.addEventListener('click', () => {
-              setTimeout(closeMenu, 200); // Délai pour laisser le scroll s'initier
-          });
-      });
-
-      // 3. Forcer les liens externes dans de nouveaux onglets
-      const allLinks = document.querySelectorAll('a');
-      allLinks.forEach(link => {
-          if (link.hostname !== window.location.hostname && link.hostname !== "") {
-              link.setAttribute('target', '_blank');
-              link.setAttribute('rel', 'noopener noreferrer');
-          }
-      });
-  });
+        overlay.addEventListener('click', closeMenu);
+        
+        // 1. Gestion des Flèches "⭡"
+        const headers = document.querySelectorAll("h1:not(.title), h2, h3");
+        headers.forEach(header => {
+            const arrow = document.createElement("span");
+            arrow.innerHTML = " ⭡"; 
+            arrow.className = "back-to-toc";
+            arrow.onclick = (e) => { e.preventDefault(); openMenu(); };
+            header.appendChild(arrow);
+        });
+        
+        // 2. Liens du Menu (Navigation interne)
+        const tocLinks = toc.querySelectorAll('a');
+        tocLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                setTimeout(closeMenu, 200); // Délai pour laisser le scroll s'initier
+            });
+        });
+        
+        // 3. Forcer les liens externes dans de nouveaux onglets
+        const allLinks = document.querySelectorAll('a');
+        allLinks.forEach(link => {
+            if (link.hostname !== window.location.hostname && link.hostname !== "") {
+                link.setAttribute('target', '_blank');
+                link.setAttribute('rel', 'noopener noreferrer');
+            }
+        });
+    });
   </script>
 </head>
 <body>
@@ -444,8 +453,8 @@ Urbain</a></li>
 </ul></li>
 <li><a href="#culture-alpes-et-artisanat" id="toc-culture-alpes-et-artisanat">Culture, Alpes et Artisanat</a>
 <ul>
-<li><a href="#subsec:tokyo" id="toc-subsec:tokyo">Tokyo &amp; Nikko (?):
-21/08 - 25/08 </a></li>
+<li><a href="#subsec:kanto" id="toc-subsec:kanto">Kanto: Tokyo te (à
+décider) Nikko &amp; Kamakura: 21/08 - 25/08 </a></li>
 <li><a href="#subsec:alpes" id="toc-subsec:alpes">Alpes Japonaises:
 26/08 - 30/08 </a></li>
 <li><a href="#kyoto-nara" id="toc-kyoto-nara">31/08 - 04/09 Kyoto &amp;
@@ -454,9 +463,10 @@ Nara</a></li>
 et/ou Naoshima</a></li>
 <li><a href="#osaka" id="toc-osaka">09/09 - 10/09 Osaka</a></li>
 </ul></li>
-<li><a href="#onsens-et-bains-publics" id="toc-onsens-et-bains-publics">Onsens et bains publics</a></li>
-<li><a href="#centres-dartisanat-dart-et-trésors-nationaux-vivants" id="toc-centres-dartisanat-dart-et-trésors-nationaux-vivants">Centres
-d’Artisanat d’Art et Trésors Nationaux Vivants</a>
+<li><a href="#onsens-et-sento" id="toc-onsens-et-sento">Onsens et
+Sento</a></li>
+<li><a href="#centres-dartisanat-dart-et-trésors-vivants" id="toc-centres-dartisanat-dart-et-trésors-vivants">Centres d’Artisanat
+d’Art et Trésors Vivants</a>
 <ul>
 <li><a href="#kanazawa-le-conservatoire-de-lépoque-edo" id="toc-kanazawa-le-conservatoire-de-lépoque-edo">Kanazawa : Le
 Conservatoire de l’Époque Edo</a></li>
@@ -470,6 +480,14 @@ L’Art du Bois (Hida-no-Takumi)</a></li>
 <li><a href="#gastronomie-et-marchés-traditionnels" id="toc-gastronomie-et-marchés-traditionnels">Gastronomie et Marchés
 Traditionnels</a></li>
 <li><a href="#ryokans" id="toc-ryokans">Ryokans</a></li>
+<li><a href="#off-the-beaten-tracks" id="toc-off-the-beaten-tracks">Off
+the beaten tracks</a>
+<ul>
+<li><a href="#kanto" id="toc-kanto">Kanto</a>
+<ul>
+<li><a href="#subsubsec:Tokyo" id="toc-subsubsec:Tokyo">Tokyo</a></li>
+</ul></li>
+</ul></li>
 </ul>
 </nav>
 <h1 id="introduction">Introduction</h1>
@@ -483,7 +501,7 @@ GÉNÉRALE</a></p>
 <p>Shinkansen ou voiture pour les zones montagneuses.</p>
 <h2 id="subsec:log_kanto">Pôle Kantō: Tokyo et Excursions</h2>
 <p>Le séjour débute à Tokyo le 20 août. Nikko et Kamakura sont
-envisagées comme des excursions radiales. Détails en <a href="#subsec:tokyo" data-reference-type="ref" data-reference="subsec:tokyo">3.1</a></p>
+envisagées comme des excursions radiales. <a href="#subsec:kanto">Détails</a></p>
 <ul>
 <li><p><strong>Tokyo <span class="math inline">↔︎</span> Nikko :</strong>
 1h50 en train (Shinkansen + JR).</p></li>
@@ -493,8 +511,8 @@ envisagées comme des excursions radiales. Détails en <a href="#subsec:tokyo" 
 <h2 id="subsec:log_alpes">Pôle Chūbu: Alpes japonaises, Kanazawa et
 Takayama</h2>
 <p>Liaison rapide vers l’ouest pour l’artisanat et les villages
-historiques. Variante avec l’option Fuji <a href="#subsec:log_fuji" data-reference-type="ref" data-reference="subsec:log_fuji">2.3</a>.
-Détails en <a href="#subsec:alpes" data-reference-type="ref" data-reference="subsec:alpes">3.2</a>.</p>
+historiques. Variante avec l’option <a href="#subsec:log_fuji">Fuji</a>.
+<a href="#subsec:alpes">Détails des visites</a>.</p>
 <ul>
 <li><p><strong>Tokyo <span class="math inline">→</span> Kanazawa
 :</strong> 2h30 en Shinkansen Hokuriku <a href="#subsec:kanazawa">(Artisanat)</a>.</p></li>
@@ -516,8 +534,8 @@ Station.</p></li>
 <li><p><strong>Route :</strong> Kawaguchiko  Matsumoto  Takayama
 (environ 3h30 de conduite cumulée) Kanazawa (retour voiture)</p></li>
 <li><p><strong>Avantage :</strong> voir enfin le Fuji-san avant de
-continuer vers les Alpes (see <a href="#subsec:log_alpes" data-reference-type="ref" data-reference="subsec:log_alpes">2.2</a> pour
-la version sans le Fuji)</p></li>
+continuer vers les Alpes (see <a href="#subsec:log_alpes">pour la
+version sans le Fuji</a>)</p></li>
 </ul>
 <h2 id="subsec:log_kansai">Pôle Kansai : Kyoto, Nara, Koyasan</h2>
 <p>Immersion dans le Japon traditionnel et les sites bouddhiques.</p>
@@ -553,9 +571,15 @@ d’Uno :</strong> 0h45 (Voiture ou train).</p></li>
 </ul>
 <h1 id="culture-alpes-et-artisanat">Culture, Alpes et Artisanat</h1>
 <p>Une route axée sur le Japon historique, les villages préservés de
-Honshū et l’île mystique de Shikoku.</p>
-<h2 id="subsec:tokyo">Tokyo &amp; Nikko (?): 21/08 - 25/08 </h2>
+Honshū et l’île mystique de Shikoku. Un <a href="https://lettersfromasia.com/">site</a> plein d’idées
+intéressantes.</p>
+<h2 id="subsec:kanto">Kanto: Tokyo te (à décider) Nikko &amp; Kamakura:
+21/08 - 25/08 </h2>
 <ul>
+<li><p>Les meilleurs <a href="https://www.vogue.com/article/best-hotels-in-tokyo">hôtels à
+Tokyo</a> d’après Vogue.</p></li>
+<li><p><a href="#subsubsec:Tokyo">Off the beaten tracks
+Tokyo</a></p></li>
 <li><p><a href="https://vivreatokyo.com/musees-parc-de-ueno.html">Musées
 de Ueno</a>, <a href="https://www.kanpai.fr/tokyo/musee-nezu">jardins
 Nezu</a></p></li>
@@ -571,6 +595,7 @@ Narratives</a></p></li>
 Nara</h2>
 <ul>
 <li><p><span>Kyoto</span> add your long list....</p></li>
+<li><p>Les meilleurs hotels de Kyoto d’après <a href="https://www.vogue.com/article/best-hotels-in-kyoto">Vogue</a></p></li>
 <li><p>Au <a href="https://www.japan.travel/fr/spot/1143/">Temple
 Adashino Nenbutsuji</a>, le dernier samedi et dimanche d’août, cérémonie
 Sento-Kuyo (allumage de milliers de bougies pour honorer les âmes
@@ -598,12 +623,12 @@ sauvage). Note:Voiture depuis Okayama.</p></li>
 <h2 class="unnumbered" id="osaka">09/09 - 10/09 Osaka</h2>
 <p>Gastronomie de rue et quartier rétro de Shinseka. Note:Retour voiture
 + Train</p>
-<h1 id="onsens-et-bains-publics">Onsens et bains publics</h1>
-<p>Liste infinie de bains publics (<a href="https://www.1010.or.jp/map-en/">sento</a> à Tokyo<br />
+<h1 id="onsens-et-sento">Onsens et Sento</h1>
+<p>Liste infinie de bains publics (sento) (<a href="https://www.1010.or.jp/map-en/">sento</a> à Tokyo<br />
 <em>Hôtel Iya Onsen</em>. Accès par téléphérique privé à des <a href="https://www.iyaonsen.co.jp/en/onsen">bains situés au fond d’une
 gorge sauvage</a>, offrant une isolation totale.</p>
-<h1 id="centres-dartisanat-dart-et-trésors-nationaux-vivants">Centres
-d’Artisanat d’Art et Trésors Nationaux Vivants</h1>
+<h1 id="centres-dartisanat-dart-et-trésors-vivants">Centres d’Artisanat
+d’Art et Trésors Vivants</h1>
 <p>Le Japon distingue ses plus grands maîtres sous le titre de
 <em>Ningen Kokuhō</em> (Trésors Nationaux Vivants). Bien que l’accès à
 leurs ateliers privés soit restreint, les centres suivants permettent
@@ -716,5 +741,20 @@ traditionnelle et l’art contemporain ou Benese House</p>
 Ryokan</a></em></p>
 </dd>
 </dl>
+<h1 id="off-the-beaten-tracks">Off the beaten tracks</h1>
+<h2 id="kanto">Kanto</h2>
+<h3 id="subsubsec:Tokyo">Tokyo</h3>
+<ul>
+<li><p>Vieux quartiers de <a href="https://www.kanpai-japan.com/tokyo/yanaka">Yanaka</a> (M. C15 ou
+gare JR Nippori): vieilles maisons en bois, cimetière jardin, Scai Bath
+House devenu galerie d’art, rue Yanako-Ginza pour ses
+patisseries.</p></li>
+<li><p><a href="https://www.kanpai.fr/tokyo/sugamo">Sugamo</a> ou le
+vieux Tokyo des seniors! Retro années 50, le temple Kogan-Ji assure une
+fin de vie heureuse (fête les 4, 14 et 24), sous-vêtements rouges porte
+bonheur.</p></li>
+<li><p>Lunch at <a href="https://www.cibi.jp/pages/menu">CIBI</a></p></li>
+<li><p>Le Brooklyn de Tokyo c’est <a href>Daikanyama</a></p></li>
+</ul>
 </body>
 </html>
