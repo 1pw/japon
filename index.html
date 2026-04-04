@@ -292,7 +292,8 @@ overflow-y: auto;
 -webkit-overflow-scrolling: touch;
 }
 nav#TOC.active { right: 0; }
-nav#TOC ul { list-style: none; padding: 0; margin: 0; padding-bottom: 120px; }
+
+nav#TOC ul { list-style: none; padding: 0; margin: 0; padding-bottom: 20px; }
 nav#TOC li { margin-bottom: 15px; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px; }
 nav#TOC a { text-decoration: none; font-size: 1.15rem; display: block; color: #bc002d !important; }
 
@@ -310,15 +311,27 @@ z-index: 998;
   <div id="toc-overlay"></div>
 
   <script>
+  // Utilisation d'une API plus stable pour iOS (Frankfurter avec fallback)
   async function updateExchangeRate() {
       const display = document.getElementById('rate-text');
       try {
           const response = await fetch('https://api.frankfurter.app/latest?from=EUR&to=JPY');
+          if (!response.ok) throw new Error();
           const data = await response.json();
           const rateJPY = data.rates.JPY;
-          display.innerHTML = `Cours : <span class="rate-value">100 ¥ ≈ ${(100/rateJPY).toFixed(2)} €</span> <small>(1€ = ${rateJPY.toFixed(1)}¥)</small>`;
+          const val100Yen = (100 / rateJPY).toFixed(2);
+          display.innerHTML = `Cours : <span class="rate-value">100 ¥ ≈ ${val100Yen} €</span> <small>(1€ = ${rateJPY.toFixed(1)}¥)</small>`;
       } catch (e) {
-          display.innerText = "Change indisponible";
+          // Fallback immédiat vers une seconde source si la première échoue sur mobile
+          fetch('https://open.er-api.com/v6/latest/EUR')
+              .then(res => res.json())
+              .then(data => {
+                  const rate = data.rates.JPY;
+                  display.innerHTML = `Cours : <span class="rate-value">100 ¥ ≈ ${(100/rate).toFixed(2)} €</span>`;
+              })
+              .catch(() => {
+                  display.innerText = "Change : 100 ¥ ≈ 0.62 € (Valeur indicative)";
+              });
       }
   }
 
@@ -327,51 +340,44 @@ z-index: 998;
       const overlay = document.getElementById('toc-overlay');
       const btn = document.getElementById('hamburger-btn');
 
-      function openMenu() {
-          toc.classList.add('active');
-          overlay.classList.add('active');
-          // On ne verrouille plus le body totalement pour éviter le bug iOS
-          document.body.style.position = 'fixed'; 
-          document.body.style.width = '100%';
-      }
-
-      function closeMenu() {
-          toc.classList.remove('active');
-          overlay.classList.remove('active');
-          document.body.style.position = '';
-          document.body.style.width = '';
+      // Gestion du menu sans verrouillage bloquant pour Safari
+      function toggleMenu() {
+          const isActive = toc.classList.toggle('active');
+          overlay.classList.toggle('active');
+          // Sur iOS, on évite de figer le body si on veut que le scroll interne fonctionne
+          if (isActive) {
+              document.body.style.overflow = 'hidden';
+          } else {
+              document.body.style.overflow = '';
+          }
       }
 
       btn.addEventListener('click', (e) => {
           e.preventDefault();
-          toc.classList.contains('active') ? closeMenu() : openMenu();
+          toggleMenu();
       });
 
-      overlay.addEventListener('click', closeMenu);
+      overlay.addEventListener('click', toggleMenu);
 
       // Flèches ⭡
       document.querySelectorAll("h1:not(.title), h2, h3").forEach(header => {
           const arrow = document.createElement("span");
           arrow.innerHTML = " ⭡"; 
           arrow.className = "back-to-toc";
-          arrow.onclick = (e) => { e.preventDefault(); openMenu(); };
+          arrow.onclick = (e) => { 
+              e.preventDefault(); 
+              toggleMenu(); 
+          };
           header.appendChild(arrow);
       });
 
-      // LIENS DU MENU : Correction critique pour iOS
+      // Liens du menu : on ferme et on laisse le navigateur scroller
       toc.querySelectorAll('a').forEach(link => {
-          link.addEventListener('click', function(e) {
-              // 1. On ferme le menu d'abord
-              closeMenu();
-              // 2. On laisse le comportement par défaut (le scroll) se faire naturellement
+          link.addEventListener('click', () => {
+              toc.classList.remove('active');
+              overlay.classList.remove('active');
+              document.body.style.overflow = '';
           });
-      });
-
-      // Liens externes
-      document.querySelectorAll('a').forEach(link => {
-          if (link.hostname && link.hostname !== window.location.hostname) {
-              link.setAttribute('target', '_blank');
-          }
       });
 
       updateExchangeRate();
